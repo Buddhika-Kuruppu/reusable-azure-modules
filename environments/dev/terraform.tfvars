@@ -9,6 +9,12 @@ subnets = {
   subnet1 = {
     address_prefixes       = ["10.0.1.0/24"]
     network_security_group = "sec-ae-nsg-dev-0"
+    delegations = {
+      appservice = {
+        name    = "Microsoft.Web/serverFarms"
+        actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+      }
+    }
   }
   subnet2 = {
     address_prefixes       = ["10.0.2.0/24"]
