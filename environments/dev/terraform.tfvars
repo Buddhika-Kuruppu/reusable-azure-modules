@@ -8,16 +8,16 @@ vnet_address_space  = ["10.0.0.0/16"]
 subnets = {
   subnet1 = {
     address_prefixes       = ["10.0.1.0/24"]
-    network_security_group = "nsg-subnet1"
+    network_security_group = "sec-ae-nsg-dev-0"
   }
   subnet2 = {
     address_prefixes       = ["10.0.2.0/24"]
-    network_security_group = "nsg-subnet2"
+    network_security_group = "sec-ae-nsg-dev-1"
   }
 }
 
 network_security_groups = {
-  nsg-subnet1 = {
+  sec-ae-nsg-dev-0 = {
     rules = [
       {
         name                       = "Allow-HTTP"
@@ -43,7 +43,7 @@ network_security_groups = {
       }
     ]
   }
-  nsg-subnet2 = {
+  sec-ae-nsg-dev-1 = {
     rules = [
       {
         name                       = "Allow-SSH"
