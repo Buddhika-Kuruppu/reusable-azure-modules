@@ -77,8 +77,16 @@ network_security_groups = {
   }
 }
 
-tags = {
-  Environment = "Development"
-  ManagedBy   = "Terraform"
-  Project     = "Azure-Infrastructure"
+network_tags = {
+  Environment  = "Development"
+  ManagedBy    = "Terraform"
+  Project      = "Azure-Infrastructure"
+  ResourceType = "Network"
+}
+
+infra_tags = {
+  Environment  = "Development"
+  ManagedBy    = "Terraform"
+  Project      = "Azure-Infrastructure"
+  ResourceType = "Infrastructure"
 }
