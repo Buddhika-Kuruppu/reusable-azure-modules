@@ -60,8 +60,17 @@ variable "network_security_groups" {
   default = {}
 }
 
-variable "tags" {
-  description = "A mapping of tags to assign to resources"
+variable "network_tags" {
+  description = "A mapping of tags to assign to network resources"
+  type        = map(string)
+  default = {
+    Environment = "Development"
+    ManagedBy   = "Terraform"
+  }
+}
+
+variable "infra_tags" {
+  description = "A mapping of tags to assign to infrastructure resources"
   type        = map(string)
   default = {
     Environment = "Development"

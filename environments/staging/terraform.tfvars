@@ -14,8 +14,16 @@ subnets = {
   }
 }
 
-tags = {
-  Environment = "Staging"
-  ManagedBy   = "Terraform"
-  Project     = "Azure-Infrastructure"
+network_tags = {
+  Environment  = "Staging"
+  ManagedBy    = "Terraform"
+  Project      = "Azure-Infrastructure"
+  ResourceType = "Network"
+}
+
+infra_tags = {
+  Environment  = "Staging"
+  ManagedBy    = "Terraform"
+  Project      = "Azure-Infrastructure"
+  ResourceType = "Infrastructure"
 }
