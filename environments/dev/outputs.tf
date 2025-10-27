@@ -18,7 +18,18 @@ output "virtual_network_name" {
   value       = module.virtual_network.name
 }
 
-output "subnet_ids" {
-  description = "The IDs of all subnets"
-  value       = module.virtual_network.subnet_ids
+output "subnets" {
+  description = "Map of subnet information"
+  value = {
+    for k, v in module.subnets : k => {
+      id               = v.id
+      name             = v.name
+      address_prefixes = v.address_prefixes
+    }
+  }
+}
+
+output "network_security_groups" {
+  description = "Map of network security group information"
+  value       = module.virtual_network.network_security_groups
 }
