@@ -18,19 +18,6 @@ variable "address_space" {
   type        = list(string)
 }
 
-variable "subnets" {
-  description = "A map of subnet configurations"
-  type = map(object({
-    address_prefixes         = list(string)
-    network_security_group   = optional(string)
-    delegations = optional(map(object({
-      name    = string
-      actions = list(string)
-    })))
-  }))
-  default = {}
-}
-
 variable "network_security_groups" {
   description = "A map of network security group configurations"
   type = map(object({
