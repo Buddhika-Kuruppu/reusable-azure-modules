@@ -6,6 +6,8 @@ Reusable Terraform modules for Azure infrastructure.
 
 - **resource-group**: Creates Azure Resource Groups
 - **virtual-network**: Creates Virtual Networks with Subnets and Network Security Groups
+- **subnet**: Creates standalone subnets within existing Virtual Networks
+- **network-security-group**: Creates Network Security Groups with custom security rules
 - **vnet-peering**: Creates bi-directional VNet peering between two Virtual Networks
 
 ## Module Usage
@@ -76,6 +78,73 @@ module "virtual_network" {
 }
 ```
 
+### Subnet
+
+```hcl
+module "subnet" {
+  source = "../../modules/subnet"
+
+  name                   = "my-subnet"
+  resource_group_name    = module.resource_group.name
+  virtual_network_name   = module.virtual_network.name
+  address_prefixes       = ["10.0.3.0/24"]
+
+  # Optional: Associate with an NSG
+  network_security_group_id = module.nsg.id
+
+  # Optional: Add delegations
+  delegations = {
+    sqlmi = {
+      name    = "Microsoft.Sql/managedInstances"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
+    }
+  }
+}
+```
+
+### Network Security Group
+
+```hcl
+module "nsg" {
+  source = "../../modules/network-security-group"
+
+  name                = "my-nsg"
+  location            = "eastus"
+  resource_group_name = module.resource_group.name
+
+  security_rules = [
+    {
+      name                       = "allow-https"
+      priority                   = 100
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "443"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+      description                = "Allow HTTPS traffic"
+    },
+    {
+      name                       = "allow-ssh"
+      priority                   = 110
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      source_address_prefix      = "10.0.0.0/8"
+      destination_address_prefix = "*"
+      description                = "Allow SSH from internal network"
+    }
+  ]
+
+  tags = {
+    Environment = "dev"
+  }
+}
+```
+
 ### VNet Peering
 
 ```hcl
@@ -104,6 +173,8 @@ module "vnet_peering" {
 ├── modules/
 │   ├── resource-group/
 │   ├── virtual-network/
+│   ├── subnet/
+│   ├── network-security-group/
 │   └── vnet-peering/
 └── environments/
     ├── dev/
