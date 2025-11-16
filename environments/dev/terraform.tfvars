@@ -20,6 +20,14 @@ subnets = {
     address_prefixes       = ["10.0.2.0/24"]
     network_security_group = "sec-ae-nsg-dev-1"
   }
+  subnet3 = {
+    address_prefixes       = ["10.0.3.0/24"]
+    network_security_group = "sec-ae-nsg-dev-2"
+  }
+  subnet4 = {
+    address_prefixes       = ["10.0.4.0/24"]
+    network_security_group = "sec-ae-nsg-dev-3"
+  }
 }
 
 network_security_groups = {
@@ -70,6 +78,36 @@ network_security_groups = {
         protocol                   = "Tcp"
         source_port_range          = "*"
         destination_port_range     = "3389"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+      }
+    ]
+  }
+  sec-ae-nsg-dev-2 = {
+    rules = [
+      {
+        name                       = "Allow-HTTPS"
+        priority                   = 100
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "443"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+      }
+    ]
+  }
+  sec-ae-nsg-dev-3 = {
+    rules = [
+      {
+        name                       = "Allow-Custom"
+        priority                   = 100
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "8080"
         source_address_prefix      = "*"
         destination_address_prefix = "*"
       }
