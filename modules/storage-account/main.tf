@@ -7,7 +7,7 @@ resource "azurerm_storage_account" "main" {
   account_kind             = var.account_kind
   access_tier              = var.access_tier
 
-  enable_https_traffic_only       = var.enable_https_traffic_only
+  https_traffic_only_enabled       = var.enable_https_traffic_only
   min_tls_version                 = var.min_tls_version
   allow_nested_items_to_be_public = var.allow_nested_items_to_be_public
   shared_access_key_enabled       = var.shared_access_key_enabled
@@ -36,7 +36,7 @@ resource "azurerm_storage_account" "main" {
   }
 
   dynamic "network_rules" {
-    for_each = var.network_rules != null ? [var.network_rules] : []
+    for_each = var.network_rules != null && length(var.network_rules) > 0 ? [var.network_rules] : []
     content {
       default_action             = lookup(network_rules.value, "default_action", "Deny")
       bypass                     = lookup(network_rules.value, "bypass", ["AzureServices"])
