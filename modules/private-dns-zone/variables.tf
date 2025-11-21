@@ -1,5 +1,5 @@
 variable "name" {
-  description = "The name of the private DNS zone"
+  description = "The name of the private DNS zone (e.g., privatelink.blob.core.windows.net)"
   type        = string
 }
 
@@ -20,84 +20,6 @@ variable "virtual_network_links" {
     name                 = string
     virtual_network_id   = string
     registration_enabled = optional(bool, false)
-  }))
-  default = {}
-}
-
-variable "a_records" {
-  description = "Map of A records to create"
-  type = map(object({
-    name    = string
-    ttl     = number
-    records = list(string)
-  }))
-  default = {}
-}
-
-variable "aaaa_records" {
-  description = "Map of AAAA records to create"
-  type = map(object({
-    name    = string
-    ttl     = number
-    records = list(string)
-  }))
-  default = {}
-}
-
-variable "cname_records" {
-  description = "Map of CNAME records to create"
-  type = map(object({
-    name   = string
-    ttl    = number
-    record = string
-  }))
-  default = {}
-}
-
-variable "mx_records" {
-  description = "Map of MX records to create"
-  type = map(object({
-    name = string
-    ttl  = number
-    records = list(object({
-      preference = number
-      exchange   = string
-    }))
-  }))
-  default = {}
-}
-
-variable "ptr_records" {
-  description = "Map of PTR records to create"
-  type = map(object({
-    name    = string
-    ttl     = number
-    records = list(string)
-  }))
-  default = {}
-}
-
-variable "srv_records" {
-  description = "Map of SRV records to create"
-  type = map(object({
-    name = string
-    ttl  = number
-    records = list(object({
-      priority = number
-      weight   = number
-      port     = number
-      target   = string
-    }))
-  }))
-  default = {}
-}
-
-variable "txt_records" {
-  description = "Map of TXT records to create"
-  type = map(object({
-    name    = string
-    ttl     = number
-    records = list(string)
   }))
   default = {}
 }
