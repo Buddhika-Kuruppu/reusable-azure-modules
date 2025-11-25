@@ -58,3 +58,8 @@ output "tenant_access" {
   value       = azurerm_api_management.main.tenant_access
   sensitive   = true
 }
+
+output "policy_id" {
+  description = "The ID of the API Management Policy"
+  value       = try(azurerm_api_management_policy.main[0].id, null)
+}
