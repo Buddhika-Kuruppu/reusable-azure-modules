@@ -166,13 +166,12 @@ resource "azurerm_api_management" "main" {
     }
   }
 
-  dynamic "policy" {
-    for_each = var.policy != null ? [var.policy] : []
-    content {
-      xml_content = lookup(policy.value, "xml_content", null)
-      xml_link    = lookup(policy.value, "xml_link", null)
-    }
-  }
-
   tags = var.tags
+}
+
+resource "azurerm_api_management_policy" "main" {
+  count               = var.policy != null ? 1 : 0
+  api_management_id   = azurerm_api_management.main.id
+  xml_content         = lookup(var.policy, "xml_content", null)
+  xml_link            = lookup(var.policy, "xml_link", null)
 }
