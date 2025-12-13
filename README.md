@@ -182,6 +182,46 @@ module "vnet_peering" {
     └── prod/
 ```
 
+## Deployment Sequence
+
+The following sequence diagram illustrates the deployment flow across the three-stage infrastructure:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant TFState as Azure Blob TFState
+    participant Networking as Stage 01 - Networking
+    participant General as Stage 02 - General Infra
+    participant Apps as Stage 03 - Applications
+
+    User->>Networking: terraform apply (environments/dev/01-networking)
+    activate Networking
+    Networking->>TFState: write state (dev-01-networking.tfstate)
+    TFState-->>Networking: ack
+    Networking-->>User: outputs (vnet_id, subnet_ids, nsg_ids)
+    deactivate Networking
+
+    User->>General: terraform apply (environments/dev/02-general-infra)
+    activate General
+    General->>TFState: read state (dev-01-networking.tfstate)
+    TFState-->>General: networking outputs
+    General->>TFState: write state (dev-02-general-infra.tfstate)
+    TFState-->>General: ack
+    General-->>User: outputs (storage_account_id, networking_vnet_id)
+    deactivate General
+
+    User->>Apps: terraform apply (environments/dev/03-applications)
+    activate Apps
+    Apps->>TFState: read state (dev-01-networking.tfstate)
+    TFState-->>Apps: networking outputs
+    Apps->>TFState: read state (dev-02-general-infra.tfstate)
+    TFState-->>Apps: general infra outputs
+    Apps->>TFState: write state (dev-03-applications.tfstate)
+    TFState-->>Apps: ack
+    Apps-->>User: outputs (app_service_plan_id, logic_app_id)
+    deactivate Apps
+```
+
 ## Requirements
 
 - Terraform >= 1.0
