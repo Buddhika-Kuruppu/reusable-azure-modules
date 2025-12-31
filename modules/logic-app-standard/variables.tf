@@ -54,12 +54,12 @@ variable "client_affinity_enabled" {
 }
 
 variable "client_certificate_mode" {
-  description = "The mode of the Logic App's client certificates requirement for incoming requests"
+  description = "The mode of the Logic App's client certificates requirement for incoming requests. Valid values: 'Required', 'Optional', 'OptionalInteractiveUser'"
   type        = string
   default     = null
   validation {
     condition     = var.client_certificate_mode == null || contains(["Required", "Optional", "OptionalInteractiveUser"], var.client_certificate_mode)
-    error_message = "Client certificate mode must be either 'Required', 'Optional', or 'OptionalInteractiveUser'"
+    error_message = "Must be 'Required', 'Optional', or 'OptionalInteractiveUser'."
   }
 }
 
@@ -88,9 +88,37 @@ variable "virtual_network_subnet_id" {
 }
 
 variable "site_config" {
-  description = "A site_config block for the Logic App"
-  type        = any
-  default     = null
+  description = "Site configuration for the Logic App"
+  type = object({
+    always_on                        = optional(bool)
+    app_scale_limit                  = optional(number)
+    dotnet_framework_version         = optional(string)
+    elastic_instance_minimum         = optional(number)
+    ftps_state                       = optional(string)
+    health_check_path                = optional(string)
+    http2_enabled                    = optional(bool)
+    linux_fx_version                 = optional(string)
+    min_tls_version                  = optional(string)
+    pre_warmed_instance_count        = optional(number)
+    public_network_access_enabled    = optional(bool)
+    runtime_scale_monitoring_enabled = optional(bool)
+    use_32_bit_worker_process        = optional(bool)
+    vnet_route_all_enabled           = optional(bool)
+    websockets_enabled               = optional(bool)
+    cors = optional(object({
+      allowed_origins     = list(string)
+      support_credentials = optional(bool)
+    }))
+    ip_restriction = optional(list(object({
+      ip_address                = optional(string)
+      service_tag               = optional(string)
+      virtual_network_subnet_id = optional(string)
+      name                      = optional(string)
+      priority                  = optional(number)
+      action                    = optional(string)
+    })))
+  })
+  default = null
 }
 
 variable "connection_strings" {
