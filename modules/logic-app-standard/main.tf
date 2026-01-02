@@ -15,7 +15,7 @@ resource "azurerm_logic_app_standard" "main" {
     content {
       always_on                     = try(site_config.value.always_on, null)
       min_tls_version               = try(site_config.value.min_tls_version, null)
-      public_network_access_enabled = try(site_config.value.public_network_access_enabled, null)
+      public_network_access = try(site_config.value.public_network_access, "Disabled")
       vnet_route_all_enabled        = try(site_config.value.vnet_route_all_enabled, null)
 
       dynamic "ip_restriction" {
