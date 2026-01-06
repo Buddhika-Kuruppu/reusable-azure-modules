@@ -2,6 +2,87 @@
 
 Reusable Terraform modules for Azure infrastructure.
 
+## Getting Started
+
+### Installation
+
+To use these modules in your Terraform configuration, reference them using the GitHub source with the production release tag:
+
+```hcl
+module "resource_group" {
+  source = "github.com/YOUR-ORG/reusable-azure-modules//modules/resource-group?ref=v2.0"
+
+  name     = "rg-production-001"
+  location = "eastus"
+  tags = {
+    Environment = "Production"
+    ManagedBy   = "Terraform"
+  }
+}
+```
+
+**Production Release:** `v2.0`
+
+### Prerequisites
+
+- [Terraform](https://www.terraform.io/downloads.html) >= 1.0
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed and authenticated
+- An Azure subscription
+- Appropriate permissions to create resources in Azure
+
+### Quick Start
+
+1. **Clone the repository** (for development or contributing):
+   ```bash
+   git clone https://github.com/YOUR-ORG/reusable-azure-modules.git
+   cd reusable-azure-modules
+   ```
+
+2. **Choose an environment** to deploy:
+   ```bash
+   cd environments/dev/01-networking
+   ```
+
+3. **Initialize Terraform**:
+   ```bash
+   terraform init
+   ```
+
+4. **Review the configuration**:
+   ```bash
+   terraform plan
+   ```
+
+5. **Apply the configuration**:
+   ```bash
+   terraform apply
+   ```
+
+### Using Modules in Your Project
+
+Reference modules directly from GitHub in your own Terraform configurations:
+
+```hcl
+# Use a specific version tag for production
+module "network" {
+  source = "github.com/YOUR-ORG/reusable-azure-modules//modules/virtual-network?ref=v2.0"
+
+  name                = "vnet-prod-001"
+  location            = "eastus"
+  resource_group_name = "rg-network-prod"
+  address_space       = ["10.0.0.0/16"]
+
+  # ... other configuration
+}
+
+# Or use the latest development version
+module "storage" {
+  source = "github.com/YOUR-ORG/reusable-azure-modules//modules/storage-account?ref=main"
+
+  # ... configuration
+}
+```
+
 ## Available Modules
 
 - **resource-group**: Creates Azure Resource Groups
@@ -222,7 +303,63 @@ sequenceDiagram
     deactivate Apps
 ```
 
+## Three-Stage Deployment Architecture
+
+This repository implements a three-stage deployment pattern for better organization and dependency management:
+
+### Stage 01 - Networking
+- Virtual Networks (VNets)
+- Subnets with delegations
+- Network Security Groups (NSGs)
+- VNet Peering
+
+### Stage 02 - General Infrastructure
+- Storage Accounts
+- Private DNS Zones
+- Shared infrastructure resources
+
+### Stage 03 - Applications
+- App Service Plans
+- Logic Apps Standard
+- API Management
+- Application-specific resources
+
+Each stage reads outputs from previous stages using Terraform remote state, ensuring proper dependency management.
+
+## Deployment Order
+
+When deploying a complete environment, follow this sequence:
+
+```bash
+# Stage 01 - Networking
+cd environments/dev/01-networking
+terraform init
+terraform apply
+
+# Stage 02 - General Infrastructure
+cd ../02-general-infra
+terraform init
+terraform apply
+
+# Stage 03 - Applications
+cd ../03-applications
+terraform init
+terraform apply
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
 ## Requirements
 
 - Terraform >= 1.0
 - AzureRM Provider ~> 3.0
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
