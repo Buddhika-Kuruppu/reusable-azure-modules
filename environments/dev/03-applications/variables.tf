@@ -16,7 +16,7 @@ variable "app_tags" {
   default = {
     Environment  = "Development"
     ManagedBy    = "Terraform"
-    Project      = "Azure-Infrastructure"
+    Project      = "Contoso-Infrastructure"
     ResourceType = "Application"
   }
 }
@@ -63,13 +63,13 @@ variable "apim_name" {
 variable "apim_publisher_name" {
   description = "The publisher name for API Management"
   type        = string
-  default     = "My Company"
+  default     = "Contoso Ltd"
 }
 
 variable "apim_publisher_email" {
   description = "The publisher email for API Management"
   type        = string
-  default     = "admin@example.com"
+  default     = "admin@contoso.com"
 }
 
 variable "apim_sku_name" {

@@ -6,7 +6,7 @@ resource_group_name = "rg-dev-infra-001"
 infra_tags = {
   Environment  = "Development"
   ManagedBy    = "Terraform"
-  Project      = "Azure-Infrastructure"
+  Project      = "Contoso-Infrastructure"
   ResourceType = "Infrastructure"
   Stage        = "02-General-Infra"
 }

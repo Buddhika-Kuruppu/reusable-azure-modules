@@ -35,7 +35,7 @@ variable "subnets" {
   default = {
     subnet1 = {
       address_prefixes       = ["10.0.1.0/24"]
-      network_security_group = "sec-ae-nsg-dev-0"
+      network_security_group = "contoso-nsg-dev-0"
       delegations = {
         appservice = {
           name    = "Microsoft.Web/serverFarms"
@@ -45,15 +45,15 @@ variable "subnets" {
     }
     subnet2 = {
       address_prefixes       = ["10.0.2.0/24"]
-      network_security_group = "sec-ae-nsg-dev-1"
+      network_security_group = "contoso-nsg-dev-1"
     }
     subnet3 = {
       address_prefixes       = ["10.0.3.0/24"]
-      network_security_group = "sec-ae-nsg-dev-2"
+      network_security_group = "contoso-nsg-dev-2"
     }
     subnet4 = {
       address_prefixes       = ["10.0.4.0/24"]
-      network_security_group = "sec-ae-nsg-dev-3"
+      network_security_group = "contoso-nsg-dev-3"
     }
   }
 }
@@ -74,7 +74,7 @@ variable "network_security_groups" {
     })))
   }))
   default = {
-    sec-ae-nsg-dev-0 = {
+    contoso-nsg-dev-0 = {
       rules = [
         {
           name                       = "Allow-HTTP"
@@ -100,7 +100,7 @@ variable "network_security_groups" {
         }
       ]
     }
-    sec-ae-nsg-dev-1 = {
+    contoso-nsg-dev-1 = {
       rules = [
         {
           name                       = "Allow-SSH"
@@ -126,7 +126,7 @@ variable "network_security_groups" {
         }
       ]
     }
-    sec-ae-nsg-dev-2 = {
+    contoso-nsg-dev-2 = {
       rules = [
         {
           name                       = "Allow-HTTPS"
@@ -141,7 +141,7 @@ variable "network_security_groups" {
         }
       ]
     }
-    sec-ae-nsg-dev-3 = {
+    contoso-nsg-dev-3 = {
       rules = [
         {
           name                       = "Allow-Custom"
@@ -165,7 +165,7 @@ variable "network_tags" {
   default = {
     Environment  = "Development"
     ManagedBy    = "Terraform"
-    Project      = "Azure-Infrastructure"
+    Project      = "Contoso-Infrastructure"
     ResourceType = "Network"
   }
 }
