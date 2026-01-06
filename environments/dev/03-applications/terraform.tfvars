@@ -6,7 +6,7 @@ resource_group_name = "rg-dev-apps-001"
 app_tags = {
   Environment  = "Development"
   ManagedBy    = "Terraform"
-  Project      = "Azure-Infrastructure"
+  Project      = "Contoso-Infrastructure"
   ResourceType = "Application"
   Stage        = "03-Applications"
 }
@@ -22,6 +22,6 @@ logic_app_enabled = true
 
 # API Management Configuration (uncomment when ready to deploy)
 # apim_name            = "apim-dev-001"
-# apim_publisher_name  = "My Company"
-# apim_publisher_email = "admin@example.com"
+# apim_publisher_name  = "Contoso Ltd"
+# apim_publisher_email = "admin@contoso.com"
 # apim_sku_name        = "Developer_1"

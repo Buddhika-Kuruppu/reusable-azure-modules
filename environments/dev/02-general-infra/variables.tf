@@ -16,7 +16,7 @@ variable "infra_tags" {
   default = {
     Environment  = "Development"
     ManagedBy    = "Terraform"
-    Project      = "Azure-Infrastructure"
+    Project      = "Contoso-Infrastructure"
     ResourceType = "Infrastructure"
   }
 }
